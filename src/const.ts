@@ -10,7 +10,7 @@ dayjs.locale("ko")
 export { dayjs }
 
 export const WEDDING_DATE = dayjs.tz("2026-01-10 12:30", "Asia/Seoul")
-export const HOLIDAYS = [15]
+export const HOLIDAYS = []
 
 export const LOCATION = "성균관컨벤션웨딩홀"
 export const LOCATION_ADDRESS = "서울특별시 종로구 성균관로 31, 성균관대학교 정문옆"
@@ -18,7 +18,7 @@ export const LOCATION_ADDRESS = "서울특별시 종로구 성균관로 31, 성�
 export const SHARE_ADDRESS = LOCATION
 export const SHARE_ADDRESS_TITLE = LOCATION
 
-export const WEDDING_HALL_POSITION = [126.9594982, 37.4657134]
+export const WEDDING_HALL_POSITION = [126.996698, 37.585431]
 
 export const NMAP_PLACE_ID = 13321741
 export const KMAP_PLACE_ID = 8634826
