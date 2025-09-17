@@ -54,7 +54,7 @@ export const Invitation = () => {
       </div>
 
       <div className="break" />
-
+/*
       <Button
         onClick={() => {
           openModal({
@@ -134,6 +134,7 @@ export const Invitation = () => {
       >
         연락하기
       </Button>
+*/
     </LazyDiv>
   )
 }
