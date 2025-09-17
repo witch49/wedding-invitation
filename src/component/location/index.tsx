@@ -38,9 +38,9 @@ export const Location = () => {
           <div className="content">
             * 버스 이용 시
             <br />
-            - <span class="bg-color-blue">간선</span>: 100, 102, 104, 107, 140, 143, 150, 151, 160, 162, 171, 172, 272, 301, 710
+            - <span class="bg-color-blue">간선</span> 100, 102, 104, 107, 140, 143, 150, 151, 160, 162, 171, 172, 272, 301, 710
             <br />
-            - <span class="bg-color-red">광역</span>: 1101, 7101
+            - <span class="bg-color-red">광역</span> 1101, 7101
             <br />
             이하 위와 동일합니다.
           </div>
