@@ -122,5 +122,23 @@
       font-size: 0.9rem;
       line-height: 1.4;
     }
+
+    .bg-color-blue {
+      background-color: #386DE8;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .bg-color-red {
+      background-color: #FB5852;
+      color: white;
+      padding: 3px 6px;
+      border-radius: 100px;
+      font-weight: bold;
+      display: inline-block;
+    }
   }
 }
