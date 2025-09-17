@@ -54,7 +54,7 @@ export const Location = () => {
             - 네비게이션: <b>성균관컨벤션웨딩홀</b> 검색
             <br />
             - 주차장 안내: 본관 주차장, 제1주차장,
-                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;성균관대학교 주차장
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;성균관대학교 주차장
             <br />
             - 하객주차 2시간 무료입니다.
             <br />
