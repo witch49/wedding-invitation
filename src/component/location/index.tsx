@@ -56,8 +56,13 @@ export const Location = () => {
             - 주차장 안내: 본관 주차장, 제1주차장,
                 <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;성균관대학교 주차장
             <br />
-            - 하객주차 2시간 무료입니다.
+            - 하객주차 2시간 무료
             <br />
+            - 성균관대학교 정문 안 주차팀 안내 배치
+            <br />
+            <div className="content">
+              ※ 주소 검색 : "서울 종로구 성균관로 31" 또는 "서울 종로구 명륜동 3가 53" 입력
+            </div>
           </div>
           <div />
         </div>
