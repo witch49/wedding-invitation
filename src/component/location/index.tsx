@@ -60,6 +60,7 @@ export const Location = () => {
             <br />
             - 성균관대학교 정문 안 주차팀 안내 배치
             <br />
+            <br />
             <div className="content">
               ※ 주소 검색 : "서울 종로구 성균관로 31" 또는 "서울 종로구 명륜동 3가 53" 입력
             </div>
