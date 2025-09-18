@@ -41,10 +41,12 @@ function App() {
           {/* 마음 전하기 */}
           <Information />
           {/* 방명록 */}
-          {!STATIC_ONLY && <GuestBook />}
+          {/* {!STATIC_ONLY && <GuestBook />} */}
+          <GuestBook />
         </LazyDiv>
 
-        <ShareButton />
+        {/* 카카오톡 공유하기 버튼 */}
+        {/* <ShareButton /> */}
       </div>
     </div>
   )
