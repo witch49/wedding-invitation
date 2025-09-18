@@ -49,7 +49,7 @@ function App() {
         </LazyDiv>
 
         {/* 카카오톡 공유하기 버튼 */}
-        {/* <ShareButton /> */}
+        <ShareButton />
       </div>
     </div>
   )
