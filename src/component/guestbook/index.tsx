@@ -173,8 +173,8 @@ export const GuestBook = () => {
                     ),
                   })
                 }
-              }
-            >
+              }}
+            />
           </div>
           <div className="body">
             <div className="title">
@@ -553,9 +553,8 @@ const AllGuestBookModal = ({
                     ),
                   })
                 }
-              }
-            }
-          >
+            }}
+           />
           </div>
           <div className="body">
             <div className="title">
