@@ -1,15 +1,34 @@
-import React, { useEffect, useState } from "react";
-import {
-  db,
-  ensureAnonymousAuth,
-  serverTimestamp,
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  onSnapshot,
-  DocumentData,
-} from "../../firebase";
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Button } from "../button"
+import { dayjs } from "../../const"
+import { LazyDiv } from "../lazyDiv"
+import { useModal } from "../modal"
+import offlineGuestBook from "./offlineGuestBook.json"
+import { SERVER_URL } from "../../env"
+import { db, ensureAnonymousAuth, serverTimestamp, collection, addDoc, query, orderBy, onSnapshot, DocumentData } from "../../firebase"
+
+const RULES = {
+  name: {
+    maxLength: 10,
+  },
+  content: {
+    maxLength: 100,
+  },
+  password: {
+    minLength: 4,
+    maxLength: 20,
+  },
+}
+
+const PAGES_PER_BLOCK = 5
+const POSTS_PER_PAGE = 5
+
+type Post = {
+  id: number
+  timestamp: number
+  name: string
+  content: string
+}
 
 type Entry = {
   id: string;
