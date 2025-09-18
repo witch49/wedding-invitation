@@ -14,6 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+console.warn("VITE_FIREBASE_API_KEY is", import.meta.env.VITE_FIREBASE_API_KEY ? "SET" : "MISSING")
 
 // 앱 시작 시 익명 로그인 시도 (이미 로그인 된 경우 무시됨)
 async function ensureAnonymousAuth() {
