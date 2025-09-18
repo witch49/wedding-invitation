@@ -651,7 +651,7 @@ const DeleteGuestBookModal = ({
             if (result.status === 403) {
               alert("비밀번호가 일치하지 않습니다.")
             } else {
-              alert("방명록 삭제를 원하시면 관리자(신부)에게 문의 부탁드립니다.")
+              alert("방명록 삭제에 실패했습니다.")
             }
             setLoading(false)
             return
@@ -686,7 +686,7 @@ const DeleteGuestBookModal = ({
           closeModal()
           onSuccess()
         } catch {
-          alert("방명록 삭제를 원하시면 관리자(신부)에게 문의 부탁드립니다.")
+          alert("방명록 삭제에 실패했습니다.")
         } finally {
           setLoading(false)
         }
