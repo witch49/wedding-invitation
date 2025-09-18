@@ -172,8 +172,9 @@ export const GuestBook = () => {
                       </>
                     ),
                   })
-              }}
-            ></button>
+                }
+              }
+            >
           </div>
           <div className="body">
             <div className="title">
@@ -552,8 +553,9 @@ const AllGuestBookModal = ({
                     ),
                   })
                 }
-              }}
-            ></div>
+              }
+            }
+          >
           </div>
           <div className="body">
             <div className="title">
