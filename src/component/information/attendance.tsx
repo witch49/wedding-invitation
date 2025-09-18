@@ -56,7 +56,7 @@ export const AttendanceInfo = () => {
           <div className="wedding-info">
             <HeartIcon /> 신랑 {GROOM_FULLNAME} & 신부 {BRIDE_FULLNAME}
             <br />
-            <CalendarIcon /> {WEDDING_DATE.format("YYYY년 MMMM D일 dddd A h시")}
+            <CalendarIcon /> {WEDDING_DATE.format("YYYY년 MMMM D일 dddd A h시m분")}
             <br />
             <MarkerIcon /> {LOCATION}
           </div>
