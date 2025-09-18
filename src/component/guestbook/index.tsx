@@ -5,7 +5,7 @@ import { LazyDiv } from "../lazyDiv"
 import { useModal } from "../modal"
 import offlineGuestBook from "./offlineGuestBook.json"
 import { SERVER_URL } from "../../env"
-import { db, ensureAnonymousAuth, serverTimestamp } from "../../firebase"
+import { db, ensureAnonymousAuth, serverTimestamp, isFirebaseConfigured } from "../../firebase"
 import { 
   collection,
   addDoc,
@@ -17,7 +17,6 @@ import {
   deleteDoc,
   doc as firestoreDoc,
 } from "firebase/firestore"
-
 
 const RULES = {
   name: {
@@ -190,7 +189,7 @@ export const GuestBook = () => {
 
       <div className="break" />
 
-      {SERVER_URL && (
+      {(SERVER_URL || isFirebaseConfigured) && (
         <>
           <Button
             onClick={() =>
