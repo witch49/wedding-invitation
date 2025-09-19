@@ -2,11 +2,7 @@
 
 ## 원본 버전 | Original Version
 
-남주호 ❤️ 정지원 청첩장입니다.
-
 https://juhonamnam.github.io/wedding-invitation
-
-실제 저희 결혼식을 위해 직접 디자인한 청첩장이며, 결혼식이 끝난 현재 전화번호, 계좌번호 등의 개인정보를 제외한 상태입니다. 사진 또한 현재 AI 생성 사진으로 대체되었으나, 당시에는 저희의 실제 웨딩 사진이 사용되었습니다.
 
 ## 개요
 
@@ -143,10 +139,11 @@ npm run build
 
 ## 📋 커스터마이징 내역
 
+- 연락하기 버튼을 비활성화하여 전화번호를 공개하지 않도록 수정
 - 날짜 포맷을 h시 → h시m분 으로 수정
-- 서버를 사용하지 않도록 SERVER_URL 부분을 삭제하고, 대신 Firebase 를 사용하여 방명록을 작성할 수 있도록 수정
-- 참석 여부 체크 기능은 사용하지 않을 예정이라 수정하지 않음(필요 시 Firebase를 사용하도록 수정 필요)
-- [Firebase] firebase의 rules 부분을 아래와 같이 작성.
+- SERVER_URL을 사용하지 않도록 하고, 대신 Firebase 를 사용하여 백엔드 서버가 없어도 되도록 수정
+- [Firebase] 방명록은 동작하도록 수정 완료하였으나, 참석 의사 전달은 사용하지 않을 예정이라 수정하지 않음
+- [Firebase] Rules - 아래와 같이 작성.
 ```bash
 rules_version = '2';
 service cloud.firestore {
