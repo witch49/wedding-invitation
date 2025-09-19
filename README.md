@@ -143,7 +143,14 @@ npm run build
 - 날짜 포맷을 h시 → h시m분 으로 수정
 - SERVER_URL 대신 Firebase를 사용해 별도의 백엔드 서버가 필요하지 않도록 수정
 - [Firebase] 방명록은 동작하도록 수정 완료하였으나, 참석 의사 전달은 사용하지 않을 예정이라 수정하지 않음
-- [Firebase] Rules - 아래와 같이 작성.
+- [Firebase] 환경변수 추가 필요 Settings > Security > Secrets and variables > Actions > Repository secrets > New repository secrets
+   - `VITE_FIREBASE_API_KEY`
+   - `VITE_FIREBASE_APP_ID`
+   - `VITE_FIREBASE_AUTH_DOMAIN`
+   - `VITE_FIREBASE_MESSAGING_SENDER_ID`
+   - `VITE_FIREBASE_PROJECT_ID`
+   - `VITE_FIREBASE_STORAGE_BUCKET`
+- [Firebase] Rules - 아래와 같이 작성
 ```bash
 rules_version = '2';
 service cloud.firestore {
