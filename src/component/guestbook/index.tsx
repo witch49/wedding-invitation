@@ -352,14 +352,14 @@ const AllGuestBookModal = ({
     if (isFirebaseConfigured) {
       try {
         await ensureAnonymousAuth()
-        const offset = page * POSTS_PER_PAGE
-        const q = firestoreQuery(
+    
+        // load ALL guestbook docs (small data assumption)
+        const qAll = firestoreQuery(
           collection(db, "guestbook"),
-          firestoreOrderBy("createdAt", "desc"),
-          firestoreLimit(POSTS_PER_PAGE),
+          firestoreOrderBy("createdAt", "desc")
         )
-        const snap = await getDocs(q)
-        const docs = snap.docs.map((d) => {
+        const snapAll = await getDocs(qAll)
+        const allDocs = snapAll.docs.map((d) => {
           const data = d.data() as any
           return {
             id: data.id ?? Number(d.id) ?? Date.now(),
@@ -368,9 +368,21 @@ const AllGuestBookModal = ({
             content: data.content ?? "",
           } as Post
         })
-        setPosts(docs)
-        // Note: Firestore doesn't give total count cheaply; for simple UX we approximate pages by length
-        setTotalPages(Math.ceil(docs.length / POSTS_PER_PAGE))
+    
+        // compute pagination
+        const total = allDocs.length
+        const pages = Math.ceil(total / POSTS_PER_PAGE)
+        setTotalPages(pages)
+    
+        // slice the page we need
+        const start = page * POSTS_PER_PAGE
+        const pageDocs = allDocs.slice(start, start + POSTS_PER_PAGE)
+    
+        setPosts(pageDocs)
+        // adjust current page if out of range
+        if (page >= pages && pages > 0) {
+          setCurrentPage(pages - 1)
+        }
       } catch (err) {
         console.error("Firebase loadPage error:", err)
       }
