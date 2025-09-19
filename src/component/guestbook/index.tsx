@@ -4,7 +4,6 @@ import { dayjs } from "../../const"
 import { LazyDiv } from "../lazyDiv"
 import { useModal } from "../modal"
 import offlineGuestBook from "./offlineGuestBook.json"
-import { SERVER_URL } from "../../env"
 import { db, ensureAnonymousAuth, serverTimestamp, isFirebaseConfigured } from "../../firebase"
 import { 
   collection,
@@ -47,20 +46,7 @@ export const GuestBook = () => {
   const [posts, setPosts] = useState<Post[]>([])
 
   const loadPosts = async () => {
-    if (SERVER_URL) {
-      try {
-        const res = await fetch(
-          `${SERVER_URL}/guestbook?offset=${0}&limit=${3}`,
-        )
-        if (res.ok) {
-          const data = await res.json()
-
-          setPosts(data.posts)
-        }
-      } catch (error) {
-        console.error("Error loading posts:", error)
-      }
-    } else {
+    if (isFirebaseConfigured) {
       // --- Firebase path: read latest 3 documents from 'guestbook' collection ---
       try {
         // ensure anonymous auth (so Firestore rules that require auth pass)
@@ -86,7 +72,8 @@ export const GuestBook = () => {
         console.error("Firebase loadPosts error:", err)
         // fallback to offline
       }
-      // setPosts(offlineGuestBook.slice(0, 3))
+    } else {
+      setPosts(offlineGuestBook.slice(0, 3))
     }
   }
 
@@ -106,40 +93,7 @@ export const GuestBook = () => {
             <button
               className="close-button"
               onClick={async () => {
-                if (SERVER_URL) {
-                  openModal({
-                    className: "delete-guestbook-modal",
-                    closeOnClickBackground: false,
-                    header: <div className="title">삭제하시겠습니까?</div>,
-                    content: (
-                      <DeleteGuestBookModal
-                        postId={post.id}
-                        onSuccess={() => {
-                          loadPosts()
-                        }}
-                      />
-                    ),
-                    footer: (
-                      <>
-                        <Button
-                          buttonStyle="style2"
-                          type="submit"
-                          form="guestbook-delete-form"
-                        >
-                          삭제하기
-                        </Button>
-                        <Button
-                          buttonStyle="style2"
-                          className="bg-light-grey-color text-dark-color"
-                          onClick={closeModal}
-                        >
-                          닫기
-                        </Button>
-                      </>
-                    ),
-                  })
-                } else {
-                  // Firebase: open delete modal as well (same UI)
+                if (isFirebaseConfigured) {
                   openModal({
                     className: "delete-guestbook-modal",
                     closeOnClickBackground: false,
@@ -189,7 +143,7 @@ export const GuestBook = () => {
 
       <div className="break" />
 
-      {(SERVER_URL || isFirebaseConfigured) && (
+      {isFirebaseConfigured && (
         <>
           <Button
             onClick={() =>
@@ -274,7 +228,6 @@ async function hashPassword(password: string) {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("")
 }
-/** --- Write modal: if SERVER_URL exists use existing POST, else use Firestore --- **/
 
 const WriteGuestBookModal = ({ loadPosts }: { loadPosts: () => void }) => {
   const inputRef = useRef({}) as React.RefObject<{
@@ -330,19 +283,7 @@ const WriteGuestBookModal = ({ loadPosts }: { loadPosts: () => void }) => {
             return
           }
 
-        if (SERVER_URL) {
-          const res = await fetch(`${SERVER_URL}/guestbook`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, content, password }),
-          })
-          if (!res.ok) {
-            throw new Error(res.statusText)
-          }
-        } else {
-          // Firebase path
+        if (isFirebaseConfigured) {
           await ensureAnonymousAuth()
           const pwHash = await hashPassword(password)
           const id = Date.now() // numeric id to match existing expectation
@@ -396,7 +337,6 @@ const WriteGuestBookModal = ({ loadPosts }: { loadPosts: () => void }) => {
   )
 }
 
-/** --- AllGuestBookModal: replace server fetch with Firestore when SERVER_URL empty --- **/
 const AllGuestBookModal = ({
   loadPosts,
 }: {
@@ -409,25 +349,7 @@ const AllGuestBookModal = ({
 
   const loadPage = async (page: number) => {
     setCurrentPage(page)
-    if (SERVER_URL) {
-      try {
-        const offset = page * POSTS_PER_PAGE
-        const res = await fetch(
-          `${SERVER_URL}/guestbook?offset=${offset}&limit=${POSTS_PER_PAGE}`,
-        )
-        if (res.ok) {
-          const data = await res.json()
-
-          setPosts(data.posts)
-          setTotalPages(Math.ceil(data.total / POSTS_PER_PAGE))
-          if (data.total < offset) {
-            setCurrentPage(Math.ceil(data.total / POSTS_PER_PAGE) - 1)
-          }
-        }
-      } catch (error) {
-        console.error("Error loading posts:", error)
-      }
-    } else {
+    if (isFirebaseConfigured) {
       try {
         await ensureAnonymousAuth()
         const offset = page * POSTS_PER_PAGE
@@ -452,7 +374,7 @@ const AllGuestBookModal = ({
       } catch (err) {
         console.error("Firebase loadPage error:", err)
       }
-    /*
+    } else {
       setCurrentPage(page)
 
       setPosts(
@@ -462,7 +384,6 @@ const AllGuestBookModal = ({
         ),
       )
       setTotalPages(Math.ceil(offlineGuestBook.length / POSTS_PER_PAGE))
-    */
     }
   }
 
@@ -485,40 +406,7 @@ const AllGuestBookModal = ({
             <div
               className="close-button"
               onClick={async () => {
-                if (SERVER_URL) {
-                  openModal({
-                    className: "delete-guestbook-modal",
-                    closeOnClickBackground: false,
-                    header: <div className="title">삭제하시겠습니까?</div>,
-                    content: (
-                      <DeleteGuestBookModal
-                        postId={post.id}
-                        onSuccess={() => {
-                          loadPosts()
-                          loadPage(currentPage)
-                        }}
-                      />
-                    ),
-                    footer: (
-                      <>
-                        <Button
-                          buttonStyle="style2"
-                          type="submit"
-                          form="guestbook-delete-form"
-                        >
-                          삭제하기
-                        </Button>
-                        <Button
-                          buttonStyle="style2"
-                          className="bg-light-grey-color text-dark-color"
-                          onClick={closeModal}
-                        >
-                          닫기
-                        </Button>
-                      </>
-                    ),
-                  })
-                } else {
+                if (isFirebaseConfigured) {
                   openModal({
                     className: "delete-guestbook-modal",
                     closeOnClickBackground: false,
@@ -640,24 +528,7 @@ const DeleteGuestBookModal = ({
             return
           }
 
-        if (SERVER_URL) {
-          const result = await fetch(`${SERVER_URL}/guestbook`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: postId, password }),
-          })
-
-          if (!result.ok) {
-            if (result.status === 403) {
-              alert("비밀번호가 일치하지 않습니다.")
-            } else {
-              alert("방명록 삭제에 실패했습니다.")
-            }
-            setLoading(false)
-            return
-          }
-        } else {
-            // Firebase path: find doc with field id == postId
+        if (isFirebaseConfigured) {
             await ensureAnonymousAuth()
             const pwHash = await hashPassword(password)
             const q = firestoreQuery(
