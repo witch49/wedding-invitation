@@ -130,7 +130,7 @@ npm run build
 
 4. `build` 디렉토리의 내용을 호스팅 플랫폼에 배포
 
-## 📋 업데이트 내역
+## 업데이트 내역
 
 ### 2025.09.11 - v0.1.0
 
@@ -140,3 +140,34 @@ npm run build
 - `STATIC_ONLY` 환경변수 설정을 통해 별도의 서버를 필요로 하는 기능을 비활성화 가능
 - [Hotfix] Github의 환경변수명에 `VITE_` 접두사가 붙지 않아 혼란이 있었던 문제 수정
 - [Hotfix] Naver Map API의 최신 업데이트 반영
+
+## 📋 커스터마이징 내역
+
+- 날짜 포맷을 h시 → h시m분 으로 수정
+- 서버를 사용하지 않도록 SERVER_URL 부분을 삭제하고, 대신 Firebase 를 사용하여 방명록을 작성할 수 있도록 수정
+- 참석 여부 체크 기능은 사용하지 않을 예정이라 수정하지 않음(필요 시 Firebase를 사용하도록 수정 필요)
+- [Firebase] firebase의 rules 부분을 아래와 같이 작성.
+```bash
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /guestbook/{docId} {
+      // 공개 읽기 허용
+      allow read: if true;
+
+      // 익명 인증(Anonymous) 포함한 인증 유저만 create 허용
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasAll(['id','timestamp','name','content','passwordHash','createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.content is string
+        && request.resource.data.passwordHash is string
+        && request.resource.data.name.size() <= 50
+        && request.resource.data.content.size() <= 1000;
+
+      // 삭제 허용
+      allow delete: if true;
+
+    }
+  }
+}
+```
